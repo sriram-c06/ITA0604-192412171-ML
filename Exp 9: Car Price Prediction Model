@@ -1,0 +1,162 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNWpNq2083QExpzHWtqaFSe",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/sriram-c06/ITA0604-192412171-ML/blob/main/Exp%209%3A%20Car%20Price%20Prediction%20Model\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 3,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "g4KbTcedifYo",
+        "outputId": "69ae2b44-f303-40ab-ef0e-f5f2d16183e7"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Predicted Values:\n",
+            "[1 0 2 1 1 0 1 2 1 1 2 0 0 0 0 1 2 1 1 2 0 2 0 2 2 2 2 2 0 0 0 0 1 0 0 2 1\n",
+            " 0 0 0 2 1 1 0 0]\n",
+            "\n",
+            "Actual Values:\n",
+            "[1 0 2 1 1 0 1 2 1 1 2 0 0 0 0 1 2 1 1 2 0 2 0 2 2 2 2 2 0 0 0 0 1 0 0 2 1\n",
+            " 0 0 0 2 1 1 0 0]\n",
+            "\n",
+            "Accuracy:\n",
+            "1.0\n",
+            "\n",
+            "Confusion Matrix:\n",
+            "[[19  0  0]\n",
+            " [ 0 13  0]\n",
+            " [ 0  0 13]]\n",
+            "\n",
+            "Classification Report:\n",
+            "              precision    recall  f1-score   support\n",
+            "\n",
+            "      setosa       1.00      1.00      1.00        19\n",
+            "  versicolor       1.00      1.00      1.00        13\n",
+            "   virginica       1.00      1.00      1.00        13\n",
+            "\n",
+            "    accuracy                           1.00        45\n",
+            "   macro avg       1.00      1.00      1.00        45\n",
+            "weighted avg       1.00      1.00      1.00        45\n",
+            "\n",
+            "\n",
+            "New Flower Prediction:\n",
+            "setosa\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Import Libraries\n",
+        "import pandas as pd\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "from sklearn.preprocessing import LabelEncoder\n",
+        "from sklearn.linear_model import LinearRegression\n",
+        "from sklearn.metrics import mean_squared_error, r2_score\n",
+        "\n",
+        "# Sample Car Dataset\n",
+        "data = {\n",
+        "    'Year': [2014, 2013, 2017, 2011, 2018, 2015, 2016, 2012, 2019, 2020],\n",
+        "    'Present_Price': [5.59, 9.54, 9.85, 4.15, 6.87, 5.70, 8.12, 3.95, 10.00, 12.50],\n",
+        "    'Kms_Driven': [27000, 43000, 6900, 5200, 15000, 35000, 18000, 60000, 10000, 5000],\n",
+        "    'Fuel_Type': ['Petrol', 'Diesel', 'Petrol', 'Petrol', 'Diesel',\n",
+        "                  'Petrol', 'Diesel', 'Petrol', 'Diesel', 'Petrol'],\n",
+        "    'Seller_Type': ['Dealer', 'Dealer', 'Dealer', 'Individual', 'Dealer',\n",
+        "                    'Dealer', 'Dealer', 'Individual', 'Dealer', 'Dealer'],\n",
+        "    'Transmission': ['Manual', 'Manual', 'Manual', 'Manual', 'Automatic',\n",
+        "                     'Manual', 'Manual', 'Manual', 'Automatic', 'Automatic'],\n",
+        "    'Owner': [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],\n",
+        "    'Selling_Price': [3.35, 4.75, 7.25, 2.85, 6.75, 4.60, 6.10, 1.95, 8.75, 11.25]\n",
+        "}\n",
+        "\n",
+        "# Create DataFrame\n",
+        "df = pd.DataFrame(data)\n",
+        "\n",
+        "print(\"Car Dataset:\")\n",
+        "print(df)\n",
+        "\n",
+        "# Encode categorical columns\n",
+        "fuel_encoder = LabelEncoder()\n",
+        "seller_encoder = LabelEncoder()\n",
+        "trans_encoder = LabelEncoder()\n",
+        "\n",
+        "df['Fuel_Type'] = fuel_encoder.fit_transform(df['Fuel_Type'])\n",
+        "df['Seller_Type'] = seller_encoder.fit_transform(df['Seller_Type'])\n",
+        "df['Transmission'] = trans_encoder.fit_transform(df['Transmission'])\n",
+        "\n",
+        "# Features and Target\n",
+        "X = df.drop('Selling_Price', axis=1)\n",
+        "y = df['Selling_Price']\n",
+        "\n",
+        "# Split Dataset\n",
+        "X_train, X_test, y_train, y_test = train_test_split(\n",
+        "    X, y, test_size=0.3, random_state=42\n",
+        ")\n",
+        "\n",
+        "# Train Linear Regression Model\n",
+        "model = LinearRegression()\n",
+        "model.fit(X_train, y_train)\n",
+        "\n",
+        "# Predict Test Data\n",
+        "y_pred = model.predict(X_test)\n",
+        "\n",
+        "# Display Results\n",
+        "print(\"\\nActual Prices:\")\n",
+        "print(y_test.values)\n",
+        "\n",
+        "print(\"\\nPredicted Prices:\")\n",
+        "print(y_pred)\n",
+        "\n",
+        "print(\"\\nMean Squared Error:\")\n",
+        "print(mean_squared_error(y_test, y_pred))\n",
+        "\n",
+        "print(\"\\nR2 Score:\")\n",
+        "print(r2_score(y_test, y_pred))\n",
+        "\n",
+        "# Predict Price of a New Car\n",
+        "new_car = pd.DataFrame({\n",
+        "    'Year': [2017],\n",
+        "    'Present_Price': [8.50],\n",
+        "    'Kms_Driven': [25000],\n",
+        "    'Fuel_Type': [1],       # Petrol = 1, Diesel = 0\n",
+        "    'Seller_Type': [0],     # Dealer = 0, Individual = 1\n",
+        "    'Transmission': [1],    # Manual = 1, Automatic = 0\n",
+        "    'Owner': [0]\n",
+        "})\n",
+        "\n",
+        "prediction = model.predict(new_car)\n",
+        "\n",
+        "print(\"\\nPredicted Selling Price of New Car:\")\n",
+        "print(prediction[0])"
+      ]
+    }
+  ]
+}
