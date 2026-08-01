@@ -1,0 +1,112 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyN1PIqT2VEKNCPj1x5E/EDT",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/sriram-c06/ITA0604-192412171-ML/blob/main/MAXIMUM%20LIKELIHOOD\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 3,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "g4KbTcedifYo",
+        "outputId": "72ca0932-5016-4ca9-dbf0-79338e4a9539"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "3. MAXIMUM LIKELIHOOD\n",
+            "--------------------------------------------------\n",
+            "Actual marks: [50, 60, 70]\n",
+            "\n",
+            "Model 1 predictions: [49, 61, 69]\n",
+            "Model 1 squared error: 3\n",
+            "\n",
+            "Model 2 predictions: [30, 80, 90]\n",
+            "Model 2 squared error: 1200\n",
+            "\n",
+            "Maximum Likelihood selects: Model 1\n"
+          ]
+        }
+      ],
+      "source": [
+        "print(\"\\n3. MAXIMUM LIKELIHOOD\")\n",
+        "print(\"-\" * 50)\n",
+        "\n",
+        "# Actual student marks\n",
+        "actual_marks = [50, 60, 70]\n",
+        "\n",
+        "# Predictions from two different models\n",
+        "model1_predictions = [49, 61, 69]\n",
+        "model2_predictions = [30, 80, 90]\n",
+        "\n",
+        "\n",
+        "# Function to calculate squared prediction error\n",
+        "def squared_error(actual, predicted):\n",
+        "\n",
+        "    total_error = 0\n",
+        "\n",
+        "    for actual_value, predicted_value in zip(actual, predicted):\n",
+        "\n",
+        "        error = actual_value - predicted_value\n",
+        "        total_error += error ** 2\n",
+        "\n",
+        "    return total_error\n",
+        "\n",
+        "\n",
+        "model1_error = squared_error(\n",
+        "    actual_marks,\n",
+        "    model1_predictions\n",
+        ")\n",
+        "\n",
+        "model2_error = squared_error(\n",
+        "    actual_marks,\n",
+        "    model2_predictions\n",
+        ")\n",
+        "\n",
+        "print(\"Actual marks:\", actual_marks)\n",
+        "\n",
+        "print(\"\\nModel 1 predictions:\", model1_predictions)\n",
+        "print(\"Model 1 squared error:\", model1_error)\n",
+        "\n",
+        "print(\"\\nModel 2 predictions:\", model2_predictions)\n",
+        "print(\"Model 2 squared error:\", model2_error)\n",
+        "\n",
+        "# Smaller error means greater likelihood\n",
+        "if model1_error < model2_error:\n",
+        "    selected_model = \"Model 1\"\n",
+        "else:\n",
+        "    selected_model = \"Model 2\"\n",
+        "\n",
+        "print(\"\\nMaximum Likelihood selects:\", selected_model)\n"
+      ]
+    }
+  ]
+}
