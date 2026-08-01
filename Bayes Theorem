@@ -1,0 +1,92 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNb7e6uktZqjmwobquwzBPw",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/sriram-c06/ITA0604-192412171-ML/blob/main/Bayes%20Theorem\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "g4KbTcedifYo",
+        "outputId": "ced59373-c9f3-4d55-e960-747dfd20b3de"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1. BAYES THEOREM\n",
+            "--------------------------------------------------\n",
+            "Total people: 100\n",
+            "People with disease: 10\n",
+            "Sick people who tested positive: 9\n",
+            "Healthy people who tested positive: 9\n",
+            "Total positive results: 18\n",
+            "Probability of disease after positive test: 50.0 %\n"
+          ]
+        }
+      ],
+      "source": [
+        "print(\"1. BAYES THEOREM\")\n",
+        "print(\"-\" * 50)\n",
+        "\n",
+        "# Imagine 100 people take a disease test\n",
+        "total_people = 100\n",
+        "\n",
+        "# 10 people actually have the disease\n",
+        "diseased_people = 10\n",
+        "\n",
+        "# Among the 10 diseased people, 9 test positive\n",
+        "sick_and_positive = 9\n",
+        "\n",
+        "# Among the 90 healthy people, 9 wrongly test positive\n",
+        "healthy_and_positive = 9\n",
+        "\n",
+        "# Total positive test results\n",
+        "total_positive = sick_and_positive + healthy_and_positive\n",
+        "\n",
+        "# Bayes result:\n",
+        "# Actual sick positive people / All positive people\n",
+        "posterior_probability = sick_and_positive / total_positive\n",
+        "\n",
+        "print(\"Total people:\", total_people)\n",
+        "print(\"People with disease:\", diseased_people)\n",
+        "print(\"Sick people who tested positive:\", sick_and_positive)\n",
+        "print(\"Healthy people who tested positive:\", healthy_and_positive)\n",
+        "print(\"Total positive results:\", total_positive)\n",
+        "\n",
+        "print(\n",
+        "    \"Probability of disease after positive test:\",\n",
+        "    posterior_probability * 100,\n",
+        "    \"%\"\n",
+        ")\n"
+      ]
+    }
+  ]
+}
